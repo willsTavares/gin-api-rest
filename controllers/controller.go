@@ -28,6 +28,11 @@ func AddNewStudent(c *gin.Context) {
 			"error": err.Error()})
 		return
 	}
+	if err := models.ValidateStudent(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
 	database.DB.Create(&student)
 	c.JSON(http.StatusCreated, student)
 }
@@ -50,6 +55,11 @@ func EditStudentById(c *gin.Context) {
 	id := c.Param("id")
 	var student models.Student
 	if err := c.ShouldBindJSON(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+	if err := models.ValidateStudent(&student); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
