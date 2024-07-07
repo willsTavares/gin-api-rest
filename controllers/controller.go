@@ -15,7 +15,7 @@ func Greet(c *gin.Context) {
 	})
 }
 
-func ShowAllStudents(c *gin.Context) {
+func ListAllStudents(c *gin.Context) {
 	var students []models.Student
 	database.DB.Find(&students)
 	c.JSON(http.StatusOK, students)
